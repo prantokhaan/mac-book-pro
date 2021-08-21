@@ -4,10 +4,10 @@ function memoryCost(isExtraMemory){
     if(isExtraMemory == false){
         memoryPrice.innerText = 0;
     }
-    else{
+    else if(isExtraMemory == true){
         memoryPrice.innerText = 180;
     }
-}
+};
 // 8 GB Memory Cost
 document.getElementById('memory-8-gb').addEventListener('click', function(){
     memoryCost(false);
@@ -32,7 +32,7 @@ function storageCost(storage){
         storagePrice.innerText = 180;
     }
 
-}
+};
 // 256 GB SSD Cost
 document.getElementById('storage-256-gb').addEventListener('click', function(){
     storageCost(256);
@@ -58,7 +58,7 @@ function deliveryCost(isFreeDelivery){
     else{
         deliveryCharge.innerText = 20;
     }
-}
+};
 // Free Delivery
 document.getElementById('free-delivery').addEventListener('click', function(){
     deliveryCost(true);
@@ -68,33 +68,32 @@ document.getElementById('free-delivery').addEventListener('click', function(){
 document.getElementById('paid-delivery').addEventListener('click', function(){
     deliveryCost(false);
     calculateTotal();
-})
+});
 
 // total price 
 function calculateTotal(){
+    // adding total price 
     const total = document.getElementById('total');
+    const basePrice = 1299;
+    const extraMemoryPrice = parseInt(document.getElementById('memory-cost').innerText);
+    const extraStoragePrice = parseInt(document.getElementById('storage-cost').innerText);
+    const deliveryCharge = parseInt(document.getElementById('delivery-cost').innerText);
+    const totalPrice = basePrice + extraStoragePrice + extraMemoryPrice + deliveryCharge;
+    total.innerText = totalPrice;
+
+    // Grand Total & Total after using Promo Code
     const grandTotal = document.getElementById('grand-total');
     const promoCodeInput = document.getElementById('promo-code');
     const promoCode = promoCodeInput.value;
-    const basePrice = 1299;
-    const extraMemoryPrice = Number(document.getElementById('memory-cost').innerText);
-    const extraStoragePrice = Number(document.getElementById('storage-cost').innerText);
-    const deliveryCharge = Number(document.getElementById('delivery-cost').innerText);
-    const totalPrice = basePrice + extraStoragePrice + extraMemoryPrice + deliveryCharge;
-    total.innerText = totalPrice;
     grandTotal.innerText = totalPrice;
 
     if(promoCode == 'stevekaku'){
-        grandTotal.innerText = total.innerText - total.innerText / 5;
+        grandTotal.innerText = Math.round(total.innerText - total.innerText / 5);
     }
     promoCodeInput.value = '';
-}
+};
 
-// discount code 
-// function applyPromoCode(){
-    
-// }
+// Promo Code 
 document.getElementById('discount-button').addEventListener('click', function (){
     calculateTotal();
-    
-})
+});
